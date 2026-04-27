@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revista Digital</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
+      padding: 20px;
+    }
+    #flipbook {
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+      background: #fff;
+    }
+    .status {
+      color: #aaa;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="status">⏳ Carregando páginas...</div>
+  <div id="flipbook"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js"></script>
+  <script>
+    // Gera automaticamente: ['p01.png', 'p02.png', ..., 'p20.png']
+    const paginas = Array.from({ length: 20 }, (_, i) => 
+      `p${String(i + 1).padStart(2, '0')}.png`
+    );
+
+    const pageFlip = new StPageFlip(document.getElementById('flipbook'), {
+      width: 420,          // largura de 1 página fechada
+      height: 594,         // altura (proporção A4 aprox.)
+      size: 'stretch',     // adapta ao container
+      minWidth: 300,
+      maxWidth: 1100,
+      minHeight: 420,
+      maxHeight: 1500,
+      showCover: true,     // capa e contracapa aparecem isoladas
+      maxShadowOpacity: 0.5,
+      mobileScrollSupport: false
+    });
+
+    pageFlip.loadFromImages(paginas).then(() => {
+      document.querySelector('.status').textContent = '✅ Pronto! Arraste ou use as setas.';
+    });
+  </script>
+</body>
+</html>
